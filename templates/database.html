@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Kalendarz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <div class="container">
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
+                Filtry
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <form method="post">
+                <div class="card card-body">
+                    Kategoria:
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="category_filter"
+                        name="category_filter">
+                        <option selected value='None'>Domyślna</option>
+                        {% for item in kat_filter %}
+                        <option>{{item}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    Zmodyfikowane przez:
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        id="modify_by_filter" name="modify_by_filter">
+                        <option selected value='None'>Domyślna</option>
+                        {% for person in modified_by %}
+                        <option>{{person}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <!-- Dzień:
+                    <input class="form-control" type="date" id="event_date" name="event_date">
+                    <br> -->
+                    <input class="btn btn-primary" data-bs-toggle="collapse" type="submit" aria-expanded="false"
+                        aria-controls="collapseExample" onClick="window.location.reload();" name="foo" value="Filtruj">
+                    <!-- Filtruj -->
+                    <!-- tutaj zmienilem z <a></a> na input trzeba przemyslec -->
+
+                </div>
+            </form>
+
+        </div>
+        </form>
+        <table class="table table-bordered table-sm">
+            <thead class="table-light">
+                <tr>
+                    <!-- <th class="align-middle text-center" data-field="ID" data-filter-control="input"
+                        data-sortable="true">
+                        Id 
+                    </th> -->
+                    <th class="align-middle text-center" data-field="Data" data-filter-control="select"
+                        data-sortable="true">
+                        Data
+                    </th>
+                    <th class="align-middle text-center" data-field="Kategoria" data-filter-control="select"
+                        data-sortable="true">
+                        Kategoria
+                    </th>
+                    <th class="align-middle text-center" data-field="Opis" data-filter-control="select"
+                        data-sortable="true">
+                        Opis
+                    </th>
+                    <th class="align-middle text-center" data-field="Wstawil" data-filter-control="select"
+                        data-sortable="true">
+                        Zmodyfikował
+                    </th>
+                    <th class="align-middle text-center" data-field="LastUpdate" data-filter-control="select"
+                        data-sortable="true">
+                        Ostatnia modyfikacja
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in output_data %}
+                <tr>
+                    <!-- <td class="align-middle">{{row.id}}</td> -->
+                    <td class="align-middle">{{row.data_wydarzenia}}</td>
+                    <td class="align-middle">{{row.kategoria}}</td>
+                    <td class="align-middle">{{row.opis}}</td>
+                    <td class="align-middle">{{row.wstawil}}</td>
+                    <td class="align-middle">{{row.last_update}}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/database_update/{{row.id}}"> Edytuj</a>
+                        <a class="btn btn-danger btn-sm" href="/database_delete/{{row.id}}"> Usuń</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Because it is flask framework there would be other keywords like 'endfor'   -->
+            </tbody>
+        </table>
+    </div>
+
+    <a class="btn btn-success" href='/database_add_user'>Dodaj nowe zdarzenie do kalendarza</a>
+
+</div>
+{% endblock %}

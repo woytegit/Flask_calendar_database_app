@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Update task{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form class="row gy-2 gx-3 align-items-center" action="/database_update/{{event_to_update.id}}" method="POST">
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th data-field="Data" data-filter-control="input" data-sortable="true">Data</th>
+                    <th data-field="Kategoria" data-filter-control="select" data-sortable="true">Kategoria</th>
+                    <th data-field="Opis" data-filter-control="select" data-sortable="true">Opis</th>
+                    <th data-field="Wstawil" data-filter-control="select" data-sortable="true">Zmodyfikował</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input class="form-control" type="date" id="event_date" name="event_date"
+                            value={{event_to_update.data_wydarzenia}}>
+                    </td>
+                    <td>
+                        <select class="form-select form-select" id="category" name="category">
+                            <option selected>{{event_to_update.kategoria}}</option>
+                            <option>Montaż</option>
+                            <option>Palenie</option>
+                            <option>Badanie</option>
+                        </select><br>
+                    </td>
+                    <td style="padding-inline: 10px;text-align: center; width: 50%;">
+                        <input class="form-control" type="text" id="event_description" name="event_description"
+                            style="width: 100%;" value="{{event_to_update.opis}}">
+                    </td>
+                    <!-- <td style=" padding-inline: 10px;text-align: center">
+                        <input class="form-control" type="text" id="user_name" name="user_name"
+                            value="{{event_to_update.wstawil}}">
+                    </td> -->
+                    <td>
+                        <div class="form-floating" style="width: 180pt;">
+                            <select class="form-select" id="user_name" name="user_name"
+                                aria-label="Floating label select example" required>
+                                <option selected value='{{event_to_update.wstawil}}'>{{event_to_update.wstawil}}
+                                    (aktualnie)
+                                </option>
+                                <!--value jest przekazywane z formularza do bazy-->
+                                {% for item in modified_by %}
+                                <option>{{modified_by[item]['imie'] + ' ' + modified_by[item]['nazwisko']}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="user_name">Wstawione przez:</label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input class="btn btn-primary" type="submit" value="Update">
+    </form>
+</div>
+{% endblock %}

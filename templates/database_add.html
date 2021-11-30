@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Add new task{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form class="row gy-2 gx-3 align-items-center" action="/database_add_user" method="POST">
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <!-- <th data-field="Data" data-filter-control="input" data-sortable="true">Data</th> -->
+                    <!-- <th data-field="Kategoria" data-filter-control="select" data-sortable="true">Kategoria</th> -->
+                    <!-- <th data-field="Opis" data-filter-control="select" data-sortable="true">Opis</th> -->
+                    <!-- <th data-field="Wstawil" data-filter-control="select" data-sortable="true">Zmodyfikował</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-floating" style="width: 120pt;">
+                            <input class="form-control" type="date" id="event_date" name="event_date" required>
+                            <label for="floatingSelect">Data wydarzenia</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-floating" style="width: 120pt;">
+                            <select class="form-select" id="category" name="category"
+                                aria-label="Floating label select example" required>
+                                <option selected value="">Wybierz opcję</option>
+                                <!--value jest przekazywane z formularza do bazy-->
+                                <option value="Palenie">Palenie</option>
+                                <option value="Badanie">Badanie</option>
+                                <option value="Montaż">Montaż</option>
+                            </select>
+                            <label for="category">Typ działania</label>
+                        </div>
+                    </td>
+                    <td style="padding-inline: 10px;text-align: center; width: 50%;">
+                        <div class="form-floating">
+                            <textarea class="form-control" type="text" id="event_description" name="event_description"
+                                style="min-height: 60px"></textarea>
+                            <label for="event_description">Krótki opis</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-floating" style="width: 180pt;">
+                            <select class="form-select" id="user_name" name="user_name"
+                                aria-label="Floating label select example" required>
+                                <option selected value=''>Wybierz opcję</option>
+                                <!--value jest przekazywane z formularza do bazy-->
+                                {% for item in modified_by %}
+                                <option>{{modified_by[item]['imie'] + ' ' + modified_by[item]['nazwisko']}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="user_name">Wstawione przez:</label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input class="btn btn-success" type="submit" value="Dodaj nowe wydarzenie do kalendarza">
+    </form>
+</div>
+{% endblock %}

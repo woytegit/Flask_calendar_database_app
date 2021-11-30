@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}Pracownicy{% endblock %}
+
+{% block content %}
+<h1>Lista pracownikow</h1>
+
+<div class="container">
+    <table class="table table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="align-middle text-center" data-field="Imie" data-filter-control="select"
+                    data-sortable="true">
+                    Imie
+                </th>
+                <th class="align-middle text-center" data-field="Nazwisko" data-filter-control="select"
+                    data-sortable="true">
+                    Nazwisko
+                </th>
+                <th class="align-middle text-center" data-field="Stanowisko" data-filter-control="select"
+                    data-sortable="true">
+                    Stanowisko
+                </th>
+                <th class="align-middle text-center" data-field="Poziom uprawnien" data-filter-control="select"
+                    data-sortable="true">
+                    Poziom uprawnień
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data_output %}
+            <tr>
+                <!-- <td class="align-middle">{{row.id}}</td> -->
+                <td class="align-middle">{{row.imie}}</td>
+                <td class="align-middle">{{row.nazwisko}}</td>
+                <td class="align-middle">{{row.stanowisko}}</td>
+                <td class="align-middle">{{row.uprawnienia}}</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/worker_update/{{row.id}}"> Edytuj</a>
+                    <a class="btn btn-danger btn-sm" href="/worker_delete/{{row.id}}"> Usuń</a>
+                </td>
+            </tr>
+            {% endfor %}
+            <!-- Because it is flask framework there would be other keywords like 'endfor'   -->
+        </tbody>
+    </table>
+</div>
+<br>
+<div class="container">
+    <form class="row gy-2 gx-3 align-items-center" method="POST">
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" id="imie" name="imie" autofocus required>
+                            <label for="floatingSelect">Imię</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" id="nazwisko" name="nazwisko" required>
+                            <label for="floatingSelect">Nazwisko</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-floating">
+                            <select class="form-select" id="stanowisko" name="stanowisko"
+                                aria-label="Floating label select example" required>
+                                <option value="" selected>Wybierz opcję</option>
+                                <!--value jest przekazywane z formularza do bazy-->
+                                <option value="1">Specjalista</option>
+                                <option value="2">Konstruktor</option>
+                                <option value="3">Automatyk</option>
+                            </select>
+                            <label for="category">Stanowisko</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-floating">
+                            <select class="form-select" id="uprawnienia" name="uprawnienia"
+                                aria-label="Floating label select example" required>
+                                <option value="" selected>Wybierz opcję</option>
+                                <!--value jest przekazywane z formularza do bazy-->
+                                <option value="1">Brak</option>
+                                <option value="2">Wyświetlanie</option>
+                                <option value="3">Dodawanie/Edycja/Usuwanie</option>
+                            </select>
+                            <label for="category">Poziom uprawnień</label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input class="btn btn-success" type="submit" value="Dodaj nowego pracownika" href="/workers">
+    </form>
+</div>
+
+
+{% endblock %}
