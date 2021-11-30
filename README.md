@@ -1,0 +1,2 @@
+# Flask_calendar_database_app
+ That is my approach to creating a calendar with weekly tasks. The main reason I have started working on that project was problems with sharing files through NAS. People in my company have got a lot of problems with locking shared files. Sometimes someone locks an excel file with calendar functionality and no one can make any modifications. So, one time I found that I could try to do something based on my experience with python and SQL databases. I also used HTML and Bootstrap toolkit
