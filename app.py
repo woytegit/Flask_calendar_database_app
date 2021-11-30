@@ -156,27 +156,24 @@ def testdb():
         if request.method == "POST":
             cat_filter = request.form["category_filter"]
             per_filter = request.form['modify_by_filter']
-            if cat_filter == 'None':
+            if cat_filter == '' and per_filter != '':
                 kalendarz = Kalendarz.query.order_by(
                     Kalendarz.data_wydarzenia).filter(
                     Kalendarz.wstawil == per_filter).all()
-                print("First")
-            elif per_filter == 'None':
+            elif per_filter == '' and cat_filter != '':
                 kalendarz = Kalendarz.query.order_by(
                     Kalendarz.data_wydarzenia).filter(
                     Kalendarz.kategoria == cat_filter).all()
-                print("Second", cat_filter)
-                print(kalendarz)
+            elif per_filter == '' and cat_filter == '':
+                kalendarz = Kalendarz.query.order_by(
+                    Kalendarz.data_wydarzenia).all()
             else:
                 kalendarz = Kalendarz.query.order_by(
                     Kalendarz.data_wydarzenia).filter(and_(
                         Kalendarz.kategoria == cat_filter, Kalendarz.wstawil == per_filter)).all()
-                print("Third")
-            print(1)
         else:
             kalendarz = Kalendarz.query.order_by(
                 Kalendarz.data_wydarzenia).all()
-            print(0)
 
         for item in kalendarz:
             # Loop for date format visualisation corection

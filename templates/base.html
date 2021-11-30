@@ -29,8 +29,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Kalendarz</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/workers">Pracownicy</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/workers" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Pracownicy
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="/workers">Lista pracowników</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="#">Lista stanowisk</a></li>                          
+                          <li><a class="dropdown-item" href="#">Lista uprawnień</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('about')}}">About me</a>

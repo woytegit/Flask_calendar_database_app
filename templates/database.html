@@ -17,7 +17,7 @@
                     Kategoria:
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="category_filter"
                         name="category_filter">
-                        <option selected value='None'>Domyślna</option>
+                        <option selected value=''>Domyślna</option>
                         {% for item in kat_filter %}
                         <option>{{item}}</option>
                         {% endfor %}
@@ -26,7 +26,7 @@
                     Zmodyfikowane przez:
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example"
                         id="modify_by_filter" name="modify_by_filter">
-                        <option selected value='None'>Domyślna</option>
+                        <option selected value=''>Domyślna</option>
                         {% for person in modified_by %}
                         <option>{{person}}</option>
                         {% endfor %}
