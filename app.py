@@ -7,6 +7,8 @@ from sqlalchemy.orm import immediateload
 from sqlalchemy.sql import text
 from datetime import date, datetime
 
+from sqlalchemy.sql.expression import distinct
+
 # import pymysql
 # from flask_bootstrap import Bootstrap
 # from flask_wtf import FlaskForm
@@ -43,6 +45,8 @@ category_list = []
 moder_guy = []
 task_categories = {}
 workers_dict = {}
+
+# classes
 
 
 class Kalendarz(db.Model):
@@ -108,16 +112,19 @@ class Uprawnienia(db.Model):
         self.id = None
         self.nazwa = nazwa
 
+# functions
+
 
 def load_all_task_categories():
-    categories_temp = Kategorie_zadan.query.all()
+    categories_temp = Kategorie_zadan.query.order_by(
+        Kategorie_zadan.nazwa).all()
     for item in categories_temp:
         task_categories[item.id] = item.nazwa
     return task_categories
 
 
 def load_all_workers():
-    workers_temp = Pracownicy.query.all()
+    workers_temp = Pracownicy.query.order_by(Pracownicy.nazwisko).all()
     for person in workers_temp:
         workers_dict[person.id] = {'imie': person.imie, 'nazwisko': person.nazwisko,
                                    'stanowisko': person.stanowisko, 'uprawienia': person.uprawnienia}
@@ -140,12 +147,13 @@ def setup_filter_lists():
 
 @app.route('/')
 def homepage():
-    if not len(category_list):
-        setup_filter_lists()
-        print(load_all_task_categories())
-        print(load_all_workers())
-        print('Lists updated')
-    print(category_list)
+    # if not len(task_categories):
+    # setup_filter_lists()
+    task_categories = load_all_task_categories()
+    # print(load_all_task_categories())
+    # print(load_all_workers())
+    print('Lists updated')
+    print(task_categories)
     return redirect('/database')
 
 
@@ -174,14 +182,13 @@ def testdb():
         else:
             kalendarz = Kalendarz.query.order_by(
                 Kalendarz.data_wydarzenia).all()
-
         for item in kalendarz:
             # Loop for date format visualisation corection
             item.data_wydarzenia = item.data_wydarzenia.strftime(
                 "%Y-%m-%d")
             item.last_update = item.last_update.strftime(
                 "%Y-%m-%d %H:%M:%S")
-        return render_template('database.html',  output_data=kalendarz, kat_filter=category_list, modified_by=moder_guy)
+        return render_template('database.html',  output_data=kalendarz, kat_filter=task_categories, modified_by=moder_guy)
 
     except Exception as e:
         # e holds description of the error
@@ -196,9 +203,10 @@ def use_filter():
     return redirect(url_for('/database', used_filter=used_filter))
 
 
-@app.route('/database_add_user')
+@app.route('/database_add_new_event')
 def add_event_form():
-    return render_template('database_add.html', modified_by=workers_dict)
+    workers_dict = load_all_workers()
+    return render_template('database_add_new_event.html', modified_by=workers_dict)
 
 
 @app.route('/database_update/<int:id>', methods=['GET', 'POST'])
@@ -238,7 +246,7 @@ def delete(id):
         return hed + error_text
 
 
-@app.route('/database_add_user', methods=['GET', 'POST'])
+@app.route('/database_add_new_event', methods=['GET', 'POST'])
 def add_to_database():
     data_wydarzenia = request.form['event_date']
     kategoria = request.form['category']
@@ -305,6 +313,21 @@ def test():
 
 @app.route('/about')
 def about():
+    # with db.engine.connect() as connection:
+    # order_by = 'data_wydarzenia'
+    # this is cool but doesn't work as I want
+    # result = connection.execute(
+    #     "   SELECT * \
+    #         FROM kalendarz \
+    #         ORDER BY {order_by}".format(order_by=order_by)).fetchall()
+    # for item in result:
+    # Loop for date format visualisation corection
+    # 'LegacyRow' object does not support item assignment
+    # item[1] = datetime.strptime(item[1], '%Y-%m-%d %H:%M:%S.%f').strftime(
+    #     "%Y-%m-%d")
+    # item.last_update = item.last_update.strftime(
+    #     "%Y-%m-%d %H:%M:%S")
+
     print(request.method)
     return render_template('about.html')
 

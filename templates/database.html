@@ -19,7 +19,7 @@
                         name="category_filter">
                         <option selected value=''>Domyślna</option>
                         {% for item in kat_filter %}
-                        <option>{{item}}</option>
+                        <option>{{kat_filter[item]}}</option>
                         {% endfor %}
                     </select>
                     <br>
@@ -28,7 +28,7 @@
                         id="modify_by_filter" name="modify_by_filter">
                         <option selected value=''>Domyślna</option>
                         {% for person in modified_by %}
-                        <option>{{person}}</option>
+                        <option>{{modified_by[person]['imie']}}</option>
                         {% endfor %}
                     </select>
                     <br>
@@ -94,7 +94,7 @@
         </table>
     </div>
 
-    <a class="btn btn-success" href='/database_add_user'>Dodaj nowe zdarzenie do kalendarza</a>
+    <a class="btn btn-success" href='/database_add_new_event'>Dodaj nowe zdarzenie do kalendarza</a>
 
 </div>
 {% endblock %}
